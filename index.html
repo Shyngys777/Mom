@@ -1,47 +1,32 @@
-<!DOCTYPE html>
-<html lang="en" >
-<head>
-  <meta charset="UTF-8">
-  <title>Birthday Card</title>
-  <link rel="stylesheet" href="style.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
-
-</head>
-<body>
-<!-- partial:index.partial.html -->
-<div class="card">
-  <div class="back"></div>
-  <div class="front">
-    <div class="cover-shape-large">
-      <div class="shape-diamond"></div>
-      <div class="shape-block"></div>
-    </div>
-    <div class="cover-shape-small">
-      <div class="shape-diamond"></div>
-      <div class="shape-block">
-        <div class="cake">
-          <div class="layer layer-bottom"></div>
-          <div class="layer layer-middle"></div>
-          <div class="layer layer-top"></div>
-          <div class="icing"></div>
-          <div class="drip drip1"></div>
-          <div class="drip drip2"></div>
-          <div class="drip drip3"></div>
-          <div class="candle">
-            <div class="flame"></div>
-          </div>
+<link rel="stylesheet" href="style.css">
+<div class="container">
+    <div id="question-container" class="hide">
+        <div id="question">Question</div>
+        <div id="answer-buttons" class="btn-grid">
+            <button class="btn">Answer 1</button>
+            <button class="btn">Answer 2</button>
+            <button class="btn">Answer 3</button>
+            <button class="btn">Answer 4</button>
         </div>
-      </div>
     </div>
-  </div>
-  
-  <div class="text-container">
-    <p id="head">Happy Birthday Mom!</p>
-    <p>Your first digital birthday card! From Shyngys.</p>
-    <p>Hope your years ahead goes great!</p>
-  </div>
+    <div class="controls">
+        <button id="start-btn" class="start-btn btn">Welcome to the Keep It Fresh</button>
+        <button id="next-btn" class="next-btn btn hide">Next</button>
+    </div>
 </div>
-<!-- partial -->
-<div id="root" />
-</body>
-</html>
+<footer class="bottom">
+    <section class="bottom__container">
+        <div class="progress">
+            <div class="progress__inner"></div>
+        </div>
+        <div class="navigation">
+            <div class="navigation__btn navigation__btn--left"><svg width="20" height="20" viewBox="0 0 24 24">
+                <path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"></path>
+            </svg></div>
+            <div class="navigation__btn navigation__btn--right"><svg width="20" height="20" viewBox="0 0 24 24">
+                <path d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z"></path>
+            </svg></div>
+        </div>
+    </section>
+</footer>
+<script src="script.js" charset="utf-8"></script>
