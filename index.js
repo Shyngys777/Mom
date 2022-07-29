@@ -1,41 +1,116 @@
-// 4/26/2022 Update: This is not quite an example of parallax by some's standards. This was just a simple and incomplete attempt to learn parallax that I thought no one would notice. I did not anticipate this experimental pen to get so many views and I credit the awesomeness of Andre Benz's photography for that completely. 
-// ----------------------------------
-// A part of my effort to learn parallax.
-// Photo Cred: Andre Benz @ https://unsplash.com/@trapnation
+const startButton = document.getElementById('start-btn')
+const nextButton = document.getElementById('next-btn')
+const questionContainerElement = document.getElementById('question-container')
+const questionElement = document.getElementById('question')
+const answerButtonsElement = document.getElementById('answer-buttons')
 
-class App extends React.Component {
-  handleMouseMove = (e) => {
-    const el = document.getElementById("wrapper");
-    const d = el.getBoundingClientRect();
-    let x = e.clientX - (d.left + Math.floor(d.width / 2));
-    let y = e.clientY - (d.top + Math.floor(d.height / 2));
-    // Invert values
-    x = x - x * 2;
-    y = y - y * 2;
-    document.documentElement.style.setProperty("--scale", 1.6);
-    document.documentElement.style.setProperty("--x", x / 2 + "px");
+let shuffledQuestions, currentQuestionIndex
 
-    document.documentElement.style.setProperty("--y", y / 2 + "px");
-  };
+startButton.addEventListener('click', startGame)
+nextButton.addEventListener('click', () => {
+    currentQuestionIndex++
+    setNextQuestion()
+})
 
-  handleMouseLeave = () => {
-    document.documentElement.style.setProperty("--scale", 1);
-    document.documentElement.style.setProperty("--x", 0);
-    document.documentElement.style.setProperty("--y", 0);
-  };
-  render() {
-    return (
-      <div
-        id="wrapper"
-        onMouseMove={this.handleMouseMove}
-        onClick={this.handleMouseLeave}
-      >
-        <img id="image" />
-      </div>
-    );
-  }
+function startGame() {
+    startButton.classList.add('hide')
+    shuffledQuestions = questions.sort(() => Math.random() - .5)
+    currentQuestionIndex = 0
+    questionContainerElement.classList.remove('hide')
+    setNextQuestion()
 }
 
-ReactDOM.render(<App />, document.getElementById("root"));
+function setNextQuestion() {
+    resetState()
+    showQuestion(shuffledQuestions[currentQuestionIndex])
+}
+
+function showQuestion(question) {
+    questionElement.innerText = question.question
+    question.answers.forEach(answer => {
+        const button = document.createElement('button')
+        button.innerText = answer.text
+        button.classList.add('btn')
+        if (answer.correct) {
+            button.dataset.correct = answer.correct
+        }
+        button.addEventListener('click', selectAnswer)
+        answerButtonsElement.appendChild(button)
+    })
+}
+
+function resetState() {
+    clearStatusClass(document.body)
+    nextButton.classList.add('hide')
+    while (answerButtonsElement.firstChild) {
+        answerButtonsElement.removeChild(answerButtonsElement.firstChild)
+    }
+}
+
+function selectAnswer(e) {
+    const selectedButton = e.target
+    const correct = selectedButton.dataset.correct
+    setStatusClass(document.body, correct)
+    Array.from(answerButtonsElement.children).forEach(button => {
+        setStatusClass(button, button.dataset.correct)
+    })
+    if (shuffledQuestions.length > currentQuestionIndex + 1) {
+        nextButton.classList.remove('hide')
+    } else {
+        startButton.innerText = 'Restart'
+        startButton.classList.remove('hide')
+    }
+}
+
+function setStatusClass(element, correct) {
+    clearStatusClass(element)
+    if (correct) {
+        element.classList.add('correct')
+    } else {
+        element.classList.add('wrong')
+    }
+}
+
+function clearStatusClass(element) {
+    element.classList.remove('correct')
+    element.classList.remove('wrong')
+}
+
+const questions = [
+    {
+        question: 'What is the type of your skin ?',
+        answers: [
+            { text: 'dry', correct: true },
+            { text: 'ideal', correct: false },
+            { text: 'soft', correct: false },
+            { text: 'combination', correct: false }
+        ]
+    },
+    {
+        question: 'What is your gender',
+        answers: [
+            { text: 'male', correct: true },
+            { text: 'female', correct: true },
+        ]
+    },
+    {
+        question: 'What result do you want to get ?',
+        answers: [
+            { text: 'Fresh and Clean Skin', correct: false },
+            { text: 'No acne', correct: true },
+            { text: 'Get rid of wrinkles', correct: false },
+            { text: 'I am not sure yet', correct: false }
+        ]
+    },
+    {
+        question: 'What is the brand of the cosmetics you are looking for exactly?',
+        answers: [
+            { text: 'Garnier', correct: false },
+            { text: 'Aloe Vera', correct: true },
+            { text: 'Chanel', correct: true },
+            { text: 'LOreal de Paris', correct: true }
+        ]
+    }
+]
 
   
